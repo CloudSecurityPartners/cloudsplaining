@@ -1,4 +1,6 @@
-## NOTE: This repo/project has been archived by Salesforce. We encourage the collaborators to fork this code to a new home.
+# Cloud Security Partners is happy to announce we'll be supporting Cloudsplaining long term.
+
+We're working on building additional maintainers and are open to working with whomever would like to work to make Cloudsplaining even better.
 
 Cloudsplaining
 --------------
