@@ -7,7 +7,7 @@ Cloudsplaining
 
 Cloudsplaining is an AWS IAM Security Assessment tool that identifies violations of least privilege and generates a risk-prioritized HTML report.
 
-[![Tests](https://github.com/salesforce/cloudsplaining/workflows/Test/badge.svg)](https://github.com/salesforce/cloudsplaining/actions?query=workflow%3ATest)
+[![Tests](https://github.com/cloudsecuritypartners/cloudsplaining/workflows/Test/badge.svg)](https://github.com/cloudsecuritypartners/cloudsplaining/actions?query=workflow%3ATest)
 [![Documentation Status](https://readthedocs.org/projects/cloudsplaining/badge/?version=latest)](https://cloudsplaining.readthedocs.io/en/latest/?badge=latest)
 [![Join the chat at https://gitter.im/cloudsplaining](https://badges.gitter.im/cloudsplaining.svg)](https://gitter.im/cloudsplaining?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/kmcquade3.svg?style=social&label=Follow%20the%20author)](https://twitter.com/kmcquade3)
@@ -15,9 +15,9 @@ Cloudsplaining is an AWS IAM Security Assessment tool that identifies violations
 [![Python Version](https://img.shields.io/pypi/pyversions/cloudsplaining)](#)
 [![Downloads](https://static.pepy.tech/badge/cloudsplaining)](https://pepy.tech/project/cloudsplaining)
 
-* [Example report](https://opensource.salesforce.com/cloudsplaining/)
+* [Example report](https://opensource.cloudsecuritypartners.com/cloudsplaining/)
 
-> ![](https://github.com/salesforce/cloudsplaining/raw/master/docs/_images/cloudsplaining-report.gif)
+> ![](https://github.com/cloudsecuritypartners/cloudsplaining/raw/master/docs/_images/cloudsplaining-report.gif)
 
 ## Documentation
 
@@ -25,7 +25,7 @@ For full documentation, please visit the [project on ReadTheDocs](https://clouds
 
 * [Installation](#installation)
 * [Cheatsheet](#cheatsheet)
-* [Example report](https://opensource.salesforce.com/cloudsplaining/)
+* [Example report](https://opensource.cloudsecuritypartners.com/cloudsplaining/)
 
 ## Overview
 
@@ -37,14 +37,14 @@ It helps to identify IAM actions that do not leverage resource constraints. It a
 * Resource Exposure (the ability to modify resource-based policies)
 * Privilege Escalation (based on Rhino Security Labs research)
 
-Cloudsplaining also identifies IAM Roles that can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda), as they can present greater risk than user-defined roles - especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios. For example, if an attacker obtains privileges to execute [ssm:SendCommand](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_SendCommand.html) and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances. Remote Code Execution via AWS Systems Manager Agent was already a known escalation/exploitation path, but Cloudsplaining can make the process of identifying theses cases easier. See the [sample report](https://opensource.salesforce.com/cloudsplaining/#executive-summary) for some examples.
+Cloudsplaining also identifies IAM Roles that can be assumed by AWS Compute Services (such as EC2, ECS, EKS, or Lambda), as they can present greater risk than user-defined roles - especially if the AWS Compute service is on an instance that is directly or indirectly exposed to the internet. Flagging these roles is particularly useful to penetration testers (or attackers) under certain scenarios. For example, if an attacker obtains privileges to execute [ssm:SendCommand](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_SendCommand.html) and there are privileged EC2 instances with the SSM agent installed, they can effectively have the privileges of those EC2 instances. Remote Code Execution via AWS Systems Manager Agent was already a known escalation/exploitation path, but Cloudsplaining can make the process of identifying theses cases easier. See the [sample report](https://opensource.cloudsecuritypartners.com/cloudsplaining/#executive-summary) for some examples.
 
 You can also specify a custom exclusions file to filter out results that are False Positives for various reasons. For example, User Policies are permissive by design, whereas System roles are generally more restrictive. You might also have exclusions that are specific to your organization's multi-account strategy or AWS application architecture.
 
 
 ## Motivation
 
-[Policy Sentry](https://engineering.salesforce.com/salesforce-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc) revealed to us that it is possible to finally write IAM policies according to least privilege in a scalable manner. Before Policy Sentry was released, it was too easy to find IAM policy documents that lacked resource constraints. Consider the policy below, which allows the IAM principal (a role or user) to run `s3:PutObject` on any S3 bucket in the AWS account:
+[Policy Sentry](https://engineering.cloudsecuritypartners.com/cloudsecuritypartners-cloud-security-automating-least-privilege-in-aws-iam-with-policy-sentry-b04fe457b8dc) revealed to us that it is possible to finally write IAM policies according to least privilege in a scalable manner. Before Policy Sentry was released, it was too easy to find IAM policy documents that lacked resource constraints. Consider the policy below, which allows the IAM principal (a role or user) to run `s3:PutObject` on any S3 bucket in the AWS account:
 
 ```json
 {
@@ -78,7 +78,7 @@ This is bad. Ideally, access should be restricted according to resource ARNs, li
 }
 ```
 
-Policy Sentry [makes it really easy to do this](https://github.com/salesforce/policy_sentry/#policy-sentry). Once Infrastructure as Code developers or AWS Administrators gain familiarity with the tool (which is quite easy to use), we've found that adoption starts very quickly. **However**, if you've been using AWS, there is probably a very large backlog of IAM policies that could use an uplift. If you have hundreds of AWS accounts with dozens of policies in each, how can we lock down those AWS accounts by programmatically identifying the policies that should be fixed?
+Policy Sentry [makes it really easy to do this](https://github.com/cloudsecuritypartners/policy_sentry/#policy-sentry). Once Infrastructure as Code developers or AWS Administrators gain familiarity with the tool (which is quite easy to use), we've found that adoption starts very quickly. **However**, if you've been using AWS, there is probably a very large backlog of IAM policies that could use an uplift. If you have hundreds of AWS accounts with dozens of policies in each, how can we lock down those AWS accounts by programmatically identifying the policies that should be fixed?
 
 That's why we wrote Cloudsplaining.
 
@@ -89,7 +89,7 @@ Cloudsplaining identifies violations of least privilege in AWS IAM policies and 
 #### Homebrew
 
 ```bash
-brew tap salesforce/cloudsplaining https://github.com/salesforce/cloudsplaining
+brew tap cloudsecuritypartners/cloudsplaining https://github.com/cloudsecuritypartners/cloudsplaining
 brew install cloudsplaining
 ```
 
@@ -195,14 +195,14 @@ Run the following command:
 cloudsplaining scan --exclusions-file exclusions.yml --input-file examples/files/example.json --output examples/files/
 ```
 
-It will create an HTML report like [this](https://opensource.salesforce.com/cloudsplaining/):
+It will create an HTML report like [this](https://opensource.cloudsecuritypartners.com/cloudsplaining/):
 
 > ![](docs/_images/cloudsplaining-report.gif)
 
 
 It will also create a raw JSON data file:
 
-* `default-iam-results.json`: This contains the raw JSON output of the report. You can use this data file for operating on the scan results for various purposes. For example, you could write a Python script that parses this data and opens up automated JIRA issues or Salesforce Work Items. An example entry is shown below. The full example can be viewed at [examples/files/iam-results-example.json](examples/files/iam-results-example.json)
+* `default-iam-results.json`: This contains the raw JSON output of the report. You can use this data file for operating on the scan results for various purposes. For example, you could write a Python script that parses this data and opens up automated JIRA issues or cloudsecuritypartners Work Items. An example entry is shown below. The full example can be viewed at [examples/files/iam-results-example.json](examples/files/iam-results-example.json)
 
 ```json
 {
@@ -382,7 +382,7 @@ Try upgrading to the latest version of Cloudsplaining. This error was fixed in v
 
 ## References
 
-* [Policy Sentry](https://github.com/salesforce/policy_sentry/) by [Kinnaird McQuade](https://twitter.com/kmcquade3) at Salesforce
+* [Policy Sentry](https://github.com/cloudsecuritypartners/policy_sentry/) by [Kinnaird McQuade](https://twitter.com/kmcquade3) at cloudsecuritypartners
 * [Parliament](https://github.com/duo-labs/parliament/) by [Scott Piper](https://twitter.com/0xdabbad00) at [Summit Route](http://summitroute.com/) and Duo Labs.
 * [AWS Privilege Escalation Methods](https://github.com/RhinoSecurityLabs/AWS-IAM-Privilege-Escalation) by [Spencer Gietzen](https://twitter.com/SpenGietz) at Rhino Security Labs
 * [Understanding Access Level Summaries within Policy Summaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_understand-policy-summary-access-level-summaries.html)
